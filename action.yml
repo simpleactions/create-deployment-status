@@ -1,0 +1,37 @@
+name: 'Create an Deployment Status'
+description: 'Create a Deployment Status'
+author: 'Sergio Garcia'
+branding:
+  icon: 'package'
+  color: 'blue'
+inputs:
+  github_token:
+    description: 'The GitHub token (if not provided the environment variable GITHUB_TOKEN will be used instead)'
+    required: false
+  deployment_id:
+    description: The deployment_id
+    required: true
+  description:
+    description: The description
+    required: true
+  state:
+    description: The state
+    required: true
+  log_url:
+    description: The log_url
+    required: false
+  environment:
+    description: The environment
+    required: false
+  environment_url:
+    description: The environment_url
+    required: false
+  auto_inactive:
+    description: The auto_inactive
+    required: false
+outputs:
+  deployment_status_id:
+    description: 'The deployment status id'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

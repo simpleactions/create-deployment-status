@@ -1,0 +1,31 @@
+name: "units-test"
+on:
+  pull_request:
+    branches: master
+
+jobs:
+  # test action works running from the graph
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Create a deployment
+        id: deployment
+        uses: simpleactions/create-deployment@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          description: a test environment
+          environment: preview
+          ref: ${{ github.head_ref }}
+          transient_environment: true
+
+      - name: Create a deployment status
+        uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          description: a test status
+          state: success
+          log_url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          environment_url: https://github.com/${{ github.repository }}
